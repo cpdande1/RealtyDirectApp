@@ -1,0 +1,271 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         Role
+  phone        String?
+  verified     Boolean  @default(false)
+  twoFactorEnabled Boolean @default(false) @map("two_factor_enabled")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  listings     Listing[]
+  buyerTransactions  Transaction[] @relation("BuyerTransactions")
+  sellerTransactions Transaction[] @relation("SellerTransactions")
+  documents    Document[]
+  auditLogs    AuditLog[]
+  educationProgress EducationProgress[]
+  courseEnrollments CourseEnrollment[]
+
+  @@map("users")
+}
+
+model Listing {
+  id          String   @id @default(uuid())
+  sellerId    String   @map("seller_id")
+  title       String
+  description String?
+  price       Decimal
+  address     Json
+  images      String[] @default([])
+  status      ListingStatus @default(ACTIVE)
+  metadata    Json     @default("{}")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  seller       User          @relation(fields: [sellerId], references: [id])
+  transactions Transaction[]
+  documents    Document[]
+
+  @@map("listings")
+}
+
+model Document {
+  id           String   @id @default(uuid())
+  listingId    String?  @map("listing_id")
+  ownerId      String   @map("owner_id")
+  templateName String   @map("template_name")
+  fileName     String   @map("file_name")
+  s3Key        String   @map("s3_key")
+  fields       Json     @default("{}")
+  signed       Boolean  @default(false)
+  signedAt     DateTime? @map("signed_at")
+  audit        Json     @default("{}")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  listing Listing? @relation(fields: [listingId], references: [id])
+  owner   User     @relation(fields: [ownerId], references: [id])
+
+  @@map("documents")
+}
+
+model Transaction {
+  id            String   @id @default(uuid())
+  listingId     String   @map("listing_id")
+  buyerId       String   @map("buyer_id")
+  sellerId      String   @map("seller_id")
+  status        TransactionStatus @default(PENDING)
+  offerAmount   Decimal? @map("offer_amount")
+  costBreakdown Json     @default("{}") @map("cost_breakdown")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  listing Listing @relation(fields: [listingId], references: [id])
+  buyer   User    @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  seller  User    @relation("SellerTransactions", fields: [sellerId], references: [id])
+
+  @@map("transactions")
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    String?  @map("user_id")
+  action    String
+  resource  Json
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+enum Role {
+  BUYER
+  SELLER
+  LENDER
+  ADMIN
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  PENDING
+  SOLD
+  WITHDRAWN
+}
+
+enum TransactionStatus {
+  PENDING
+  OFFER_MADE
+  OFFER_ACCEPTED
+  UNDER_CONTRACT
+  COMPLETED
+  CANCELLED
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  content     Json     @default("{}")
+  category    CourseCategory
+  level       CourseLevel
+  duration    Int      // Duration in minutes
+  isFree      Boolean  @default(false)
+  price       Decimal? @default(0)
+  thumbnail   String?
+  prerequisites String[] @default([])
+  learningObjectives String[] @default([])
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  modules     CourseModule[]
+  enrollments CourseEnrollment[]
+  progress    EducationProgress[]
+
+  @@map("courses")
+}
+
+model CourseModule {
+  id        String   @id @default(uuid())
+  courseId  String   @map("course_id")
+  title     String
+  content   Json     @default("{}")
+  order     Int
+  duration  Int      // Duration in minutes
+  isQuiz    Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_modules")
+}
+
+model CourseEnrollment {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  courseId  String   @map("course_id")
+  enrolledAt DateTime @default(now()) @map("enrolled_at")
+  completedAt DateTime? @map("completed_at")
+  progress  Int      @default(0) // Progress percentage
+  status    EnrollmentStatus @default(ENROLLED)
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
+  @@map("course_enrollments")
+}
+
+model EducationProgress {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  courseId  String   @map("course_id")
+  moduleId  String?  @map("module_id")
+  completed Boolean  @default(false)
+  score     Int?     // Quiz score if applicable
+  timeSpent Int      @default(0) // Time spent in minutes
+  completedAt DateTime? @map("completed_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId, moduleId])
+  @@map("education_progress")
+}
+
+model RecoResource {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  url         String
+  type        ResourceType
+  category    String
+  isOfficial  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("reco_resources")
+}
+
+model SelfRepresentationGuide {
+  id          String   @id @default(uuid())
+  title       String
+  content     Json     @default("{}")
+  category    String
+  step        Int
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("self_representation_guides")
+}
+
+enum CourseCategory {
+  RECO_LICENSING
+  LEGAL_REQUIREMENTS
+  MARKET_ANALYSIS
+  NEGOTIATION
+  DOCUMENTATION
+  ETHICS
+  CONTINUING_EDUCATION
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  PROFESSIONAL
+}
+
+enum EnrollmentStatus {
+  ENROLLED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ResourceType {
+  DOCUMENT
+  VIDEO
+  ARTICLE
+  FORM
+  GUIDE
+  WEBINAR
+}
