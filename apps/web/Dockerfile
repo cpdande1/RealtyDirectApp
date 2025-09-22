@@ -28,8 +28,7 @@ RUN npm run build --workspace=@realtydirect/lib
 RUN npm run build --workspace=@repo/ui
 
 # Build web app
-WORKDIR /app/apps/web
-RUN npm run build
+RUN npm run build --workspace=web
 
 # Production image with nginx
 FROM nginx:alpine AS runner

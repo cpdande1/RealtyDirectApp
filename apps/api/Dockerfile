@@ -28,8 +28,7 @@ RUN npm run build --workspace=@realtydirect/lib
 RUN npm run build --workspace=@realtydirect/ai
 
 # Build API
-WORKDIR /app/apps/api
-RUN npm run build
+RUN npm run build --workspace=api
 
 # Production image
 FROM base AS runner
