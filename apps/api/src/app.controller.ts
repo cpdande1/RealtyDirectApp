@@ -30,4 +30,5 @@ export class AppController {
       return { ...health, database: 'disconnected' };
     }
   }
+
 }
