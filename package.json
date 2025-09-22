@@ -3,6 +3,10 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:api": "npm run build --workspace=@realtydirect/lib && npm run build --workspace=@realtydirect/ai && npm run build --workspace=api",
+    "build:web": "npm run build --workspace=@realtydirect/lib && npm run build --workspace=web",
+    "start:api": "npm run start:prod --workspace=api",
+    "start:web": "npm run start:prod --workspace=web",
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter=web",
     "dev:api": "turbo run dev --filter=api",
