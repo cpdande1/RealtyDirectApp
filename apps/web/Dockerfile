@@ -20,15 +20,20 @@ WORKDIR /app
 # Copy all source code
 COPY . .
 
-# Install all dependencies
-RUN npm ci
+# Install all dependencies and ensure workspace linking
+RUN npm install
 
-# Build packages
+# Build packages in correct order
 RUN npm run build --workspace=@realtydirect/lib
 RUN npm run build --workspace=@repo/ui
 
-# Build web app
-RUN npm run build --workspace=web
+# Verify lib package is built and check node_modules
+RUN ls -la packages/lib/dist/
+RUN ls -la node_modules/@realtydirect/
+RUN ls -la node_modules/@realtydirect/lib/
+
+# Try to build using turbo to ensure proper dependency resolution
+RUN npx turbo build --filter=web --verbose
 
 # Production image with nginx
 FROM nginx:alpine AS runner
