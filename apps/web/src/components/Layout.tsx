@@ -6,7 +6,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
