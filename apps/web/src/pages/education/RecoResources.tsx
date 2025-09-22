@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { RecoResource, ResourceType } from '@realtydirect/lib';
+import { type RecoResource } from '@realtydirect/lib';
+// Define enum locally for now
+enum ResourceType {
+  DOCUMENT = 'DOCUMENT',
+  VIDEO = 'VIDEO',
+  ARTICLE = 'ARTICLE',
+  FORM = 'FORM',
+  GUIDE = 'GUIDE',
+  WEBINAR = 'WEBINAR'
+}
 import { apiService } from '../../services/api';
 
 const RecoResources: React.FC = () => {

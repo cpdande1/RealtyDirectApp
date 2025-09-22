@@ -2,7 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { apiService } from '../../services/api';
-import { Course, CourseCategory, CourseLevel } from '@realtydirect/lib';
+import { type Course } from '@realtydirect/lib';
+// Define enums locally for now
+enum CourseCategory {
+  RECO_LICENSING = 'RECO_LICENSING',
+  LEGAL_REQUIREMENTS = 'LEGAL_REQUIREMENTS',
+  MARKET_ANALYSIS = 'MARKET_ANALYSIS',
+  NEGOTIATION = 'NEGOTIATION',
+  DOCUMENTATION = 'DOCUMENTATION',
+  ETHICS = 'ETHICS',
+  CONTINUING_EDUCATION = 'CONTINUING_EDUCATION'
+}
+enum CourseLevel {
+  BEGINNER = 'BEGINNER',
+  INTERMEDIATE = 'INTERMEDIATE',
+  ADVANCED = 'ADVANCED',
+  PROFESSIONAL = 'PROFESSIONAL'
+}
 
 const Courses: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -207,7 +223,7 @@ const Courses: React.FC = () => {
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-gray-900 mb-2">What you'll learn:</h4>
                     <ul className="text-sm text-gray-600 space-y-1">
-                      {course.learningObjectives.slice(0, 3).map((objective, index) => (
+                      {course.learningObjectives.slice(0, 3).map((objective: string, index: number) => (
                         <li key={index} className="flex items-start">
                           <span className="text-green-500 mr-2">✓</span>
                           {objective}

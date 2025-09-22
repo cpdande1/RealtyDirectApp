@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
-import { Listing } from '@realtydirect/lib';
+import { type Listing } from '@realtydirect/lib';
 
 const Listings: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);

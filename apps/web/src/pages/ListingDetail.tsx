@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiService } from '../services/api';
-import { Listing } from '@realtydirect/lib';
+import { type Listing } from '@realtydirect/lib';
 
 const ListingDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -65,7 +65,7 @@ const ListingDetail: React.FC = () => {
           <div className="space-y-4">
             {listing.images.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {listing.images.map((image, index) => (
+                {listing.images.map((image: string, index: number) => (
                   <img
                     key={index}
                     src={image}
@@ -163,12 +163,12 @@ const ListingDetail: React.FC = () => {
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
                 <span className="text-primary-600 font-medium">
-                  {listing.seller.name.charAt(0)}
+                  S
                 </span>
               </div>
               <div>
-                <p className="font-medium text-gray-900">{listing.seller.name}</p>
-                <p className="text-sm text-gray-600">Seller</p>
+                <p className="font-medium text-gray-900">Seller</p>
+                <p className="text-sm text-gray-600">Property Owner</p>
               </div>
             </div>
           </div>

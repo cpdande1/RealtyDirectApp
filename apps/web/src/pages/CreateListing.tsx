@@ -2,7 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { apiService } from '../services/api';
-import { CreateListingDto, Role } from '@realtydirect/lib';
+import { type CreateListingDto } from '@realtydirect/lib';
+// Define enums locally for now
+enum Role {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  LENDER = 'LENDER',
+  ADMIN = 'ADMIN'
+}
+enum ListingStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+  PENDING = 'PENDING',
+  SOLD = 'SOLD',
+  WITHDRAWN = 'WITHDRAWN'
+}
 
 const CreateListing: React.FC = () => {
   const { user } = useAuth();
@@ -20,6 +34,7 @@ const CreateListing: React.FC = () => {
       country: 'US',
     },
     images: [],
+    status: ListingStatus.DRAFT,
   });
   
   const [error, setError] = useState('');

@@ -34,7 +34,7 @@ interface ContinuingEducationInfo {
 }
 
 const Licensing: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { } = useAuth();
   const [licensingInfo, setLicensingInfo] = useState<LicensingInfo | null>(null);
   const [continuingEducation, setContinuingEducation] = useState<ContinuingEducationInfo | null>(null);
   const [loading, setLoading] = useState(true);

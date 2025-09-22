@@ -1,6 +1,12 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Role } from '@realtydirect/lib';
+// Define Role enum locally for now
+enum Role {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  LENDER = 'LENDER',
+  ADMIN = 'ADMIN'
+}
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();

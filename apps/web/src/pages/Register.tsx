@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Role } from '@realtydirect/lib';
+// Define Role enum locally for now
+enum Role {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  LENDER = 'LENDER',
+  ADMIN = 'ADMIN'
+}
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({

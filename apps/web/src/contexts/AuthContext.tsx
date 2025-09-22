@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, Role } from '@realtydirect/lib';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { type User } from '@realtydirect/lib';
 import { apiService } from '../services/api';
 
 interface AuthContextType {

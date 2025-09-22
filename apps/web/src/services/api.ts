@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { RegisterDto, LoginDto, CreateListingDto, UpdateListingDto } from '@realtydirect/lib';
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
+import { type RegisterDto, type CreateListingDto, type UpdateListingDto } from '@realtydirect/lib';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SelfRepresentationGuide } from '@realtydirect/lib';
+import { type SelfRepresentationGuide } from '@realtydirect/lib';
 import { apiService } from '../../services/api';
 
 const SelfRepresentation: React.FC = () => {
@@ -45,7 +45,7 @@ const SelfRepresentation: React.FC = () => {
 
   // Sort guides within each category by step
   Object.keys(groupedGuides).forEach(category => {
-    groupedGuides[category].sort((a, b) => a.step - b.step);
+    groupedGuides[category].sort((a: SelfRepresentationGuide, b: SelfRepresentationGuide) => a.step - b.step);
   });
 
   if (loading) {
@@ -157,7 +157,7 @@ const SelfRepresentation: React.FC = () => {
               </h2>
               
               <div className="space-y-4">
-                {categoryGuides.map((guide, index) => (
+                {categoryGuides.map((guide: SelfRepresentationGuide) => (
                   <div key={guide.id} className="border-l-4 border-primary-500 pl-6">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
