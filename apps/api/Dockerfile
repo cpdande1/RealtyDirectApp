@@ -20,15 +20,22 @@ WORKDIR /app
 # Copy all source code
 COPY . .
 
-# Install all dependencies (including dev dependencies)
-RUN npm ci
+# Install all dependencies and ensure workspace linking
+RUN npm install
 
-# Build packages
+# Build packages in correct order
 RUN npm run build --workspace=@realtydirect/lib
 RUN npm run build --workspace=@realtydirect/ai
 
-# Build API
-RUN npm run build --workspace=api
+# Verify packages are built and check node_modules
+RUN ls -la packages/lib/dist/
+RUN ls -la packages/ai/dist/
+RUN ls -la node_modules/@realtydirect/
+RUN ls -la node_modules/@realtydirect/lib/
+RUN ls -la node_modules/@realtydirect/ai/
+
+# Build API using turbo to ensure proper dependency resolution
+RUN npx turbo build --filter=api --verbose
 
 # Production image
 FROM base AS runner

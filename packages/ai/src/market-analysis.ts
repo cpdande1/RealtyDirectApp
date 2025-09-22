@@ -33,8 +33,8 @@ export class MarketAnalysisAI {
     // In a real system, this would analyze real market data
     
     const prices = historicalData.map(d => d.price);
-    const medianPrice = prices.length > 0 ? prices.sort((a, b) => a - b)[Math.floor(prices.length / 2)] : 0;
-    const averageDaysOnMarket = historicalData.length > 0 ? historicalData.reduce(
+    const medianPrice: number = prices.length > 0 ? (prices.sort((a, b) => a - b)[Math.floor(prices.length / 2)] ?? 0) : 0;
+    const averageDaysOnMarket: number = historicalData.length > 0 ? historicalData.reduce(
       (sum, d) => sum + d.daysOnMarket, 0
     ) / historicalData.length : 0;
     

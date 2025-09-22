@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { ListingsService } from './listings.service';
-import { CreateListingDto, UpdateListingDto } from '@realtydirect/lib';
+import { type CreateListingDto, type UpdateListingDto } from '@realtydirect/lib';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Listings')

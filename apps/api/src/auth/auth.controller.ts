@@ -12,7 +12,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
-import { RegisterDto, LoginDto } from '@realtydirect/lib';
+import { type RegisterDto, type LoginDto } from '@realtydirect/lib';
 
 @ApiTags('Authentication')
 @Controller('api/auth')
