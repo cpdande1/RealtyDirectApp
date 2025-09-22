@@ -124,3 +124,4 @@ export class EducationController {
     return this.educationService.getUserProgressSummary(req.user.id);
   }
 }
+

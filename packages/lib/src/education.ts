@@ -157,3 +157,4 @@ export interface ProgressUpdateData {
   score?: number;
   timeSpent: number;
 }
+

@@ -139,3 +139,4 @@ const Listings: React.FC = () => {
 };
 
 export default Listings;
+

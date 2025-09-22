@@ -117,3 +117,4 @@ export class ListingsController {
     return this.listingsService.uploadImages(id, body.images, req.user.id);
   }
 }
+

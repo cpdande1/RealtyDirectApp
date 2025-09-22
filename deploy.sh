@@ -92,3 +92,4 @@ echo "🌐 Next Steps:"
 echo "  1. Set up your domain DNS to point to this server"
 echo "  2. Configure SSL certificates"
 echo "  3. Set up monitoring and backups"
+

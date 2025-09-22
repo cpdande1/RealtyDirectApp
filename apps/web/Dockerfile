@@ -25,7 +25,7 @@ RUN npm ci
 
 # Build packages
 RUN npm run build --workspace=@realtydirect/lib
-RUN npm run build --workspace=@realtydirect/ui
+RUN npm run build --workspace=@repo/ui
 
 # Build web app
 WORKDIR /app/apps/web
@@ -52,3 +52,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
+

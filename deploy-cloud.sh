@@ -119,3 +119,4 @@ echo "3. Set up monitoring and backups"
 echo "4. Test all functionality"
 echo ""
 echo "🎉 Happy deploying!"
+

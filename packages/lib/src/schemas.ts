@@ -66,3 +66,4 @@ export type CreateTransactionDto = z.infer<typeof CreateTransactionSchema>;
 export type UpdateTransactionDto = z.infer<typeof UpdateTransactionSchema>;
 export type CostBreakdownDto = z.infer<typeof CostBreakdownSchema>;
 export type DocumentDto = z.infer<typeof DocumentSchema>;
+

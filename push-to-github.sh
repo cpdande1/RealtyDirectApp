@@ -22,3 +22,4 @@ git push -u origin main
 echo "✅ Successfully pushed to GitHub!"
 echo "🔗 Repository: https://github.com/cpdande1/RealtyDirect"
 echo "🎉 Ready for deployment!"
+

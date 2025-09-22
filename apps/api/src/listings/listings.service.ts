@@ -255,3 +255,4 @@ export class ListingsService {
     return { images: updatedListing.images };
   }
 }
+

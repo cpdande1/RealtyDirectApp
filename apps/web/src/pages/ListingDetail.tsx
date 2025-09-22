@@ -206,3 +206,4 @@ const ListingDetail: React.FC = () => {
 };
 
 export default ListingDetail;
+
