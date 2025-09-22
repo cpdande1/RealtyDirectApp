@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "build:api": "npm install && npx turbo build --filter=@realtydirect/lib --filter=@realtydirect/ai --filter=api",
-    "build:web": "npm install && npx turbo build --filter=@realtydirect/lib --filter=web",
+    "build:api": "npm install && cd packages/lib && npm run build && cd ../ai && npm run build && cd ../../ && mkdir -p apps/api/node_modules/@realtydirect && cp -r packages/lib/* apps/api/node_modules/@realtydirect/ && cp -r packages/ai/* apps/api/node_modules/@realtydirect/ && cd apps/api && npm run build",
+    "build:web": "npm install && cd packages/lib && npm run build && cd ../../ && mkdir -p apps/web/node_modules/@realtydirect && cp -r packages/lib/* apps/web/node_modules/@realtydirect/ && cd apps/web && npm run build",
     "start:api": "npm run start:prod --workspace=api",
     "start:web": "npm run start:prod --workspace=web",
     "dev": "turbo run dev",
